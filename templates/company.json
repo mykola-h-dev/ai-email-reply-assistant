@@ -1,0 +1,13 @@
+{
+  "_note": "Fictional company used for the demo. Replace with the client's real details and policies.",
+  "company": "Bramble & Co",
+  "reply_from": "Bramble & Co <hello@brambleandco.example>",
+  "signature": "Best wishes,\nThe Bramble & Co team\nhello@brambleandco.example",
+  "facts": [
+    "Bramble & Co is a small online homeware shop.",
+    "Orders are usually dispatched within 2 working days; tracking links are emailed at dispatch.",
+    "Unused items can be returned within 30 days for a full refund; refunds are issued within 5 working days of receiving the return.",
+    "Damaged items are replaced or refunded at no cost; customers are asked for a photo of the damage.",
+    "Pottery workshops run on Saturdays from 10:00 to 12:30 and cost 45 per person; booking and payment are done on the website."
+  ]
+}

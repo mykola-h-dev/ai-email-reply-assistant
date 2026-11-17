@@ -1,0 +1,7 @@
+Hi $first_name,
+
+Thank you for your message about order $order_number, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.
+
+[CHECK: confirm eligibility and send the return label / refund confirmation]
+
+$signature

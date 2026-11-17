@@ -1,0 +1,7 @@
+Hi $first_name,
+
+Thanks for getting in touch about order $order_number. I'm checking its status with our warehouse now and will email you the tracking link as soon as it has been dispatched. Orders usually leave us within 2 working days.
+
+[CHECK: add the current status / tracking link from the order system]
+
+$signature

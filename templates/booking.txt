@@ -1,0 +1,7 @@
+Hi $first_name,
+
+Thanks for your interest in our pottery workshop! Workshops run on Saturdays from 10:00 to 12:30 and you can book and pay for places on our website.
+
+[CHECK: confirm availability for the requested date and number of places]
+
+$signature

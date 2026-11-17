@@ -1,0 +1,7 @@
+Hi $first_name,
+
+Thank you for your email. I've passed your question to the right person on our team and we'll get back to you within one working day.
+
+[CHECK: answer the question or forward to the right person]
+
+$signature

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email drafts for review</title><style>
+:root { --bg:#f6f7f9; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
+header { padding:24px 5vw 8px; }
+h1 { margin:0 0 4px; font-size:1.5rem; }
+.sub { color:var(--muted); font-size:.92rem; }
+.summary { display:flex; flex-wrap:wrap; gap:8px; padding:12px 5vw 4px; }
+.pill { font-size:.8rem; padding:4px 10px; border-radius:999px; color:#fff; font-weight:600; }
+main { padding:12px 5vw 40px; display:grid; gap:16px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+.card-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; padding:14px 18px; border-bottom:1px solid var(--line); }
+.card-head h2 { font-size:1rem; margin:0 0 3px; }
+.meta { color:var(--muted); font-size:.82rem; }
+.tags { display:flex; gap:6px; align-items:center; flex-shrink:0; }
+.conf { font-size:.8rem; color:var(--muted); }
+.flag { font-size:.75rem; background:#fef3c7; color:#92400e; padding:3px 8px; border-radius:999px; font-weight:600; }
+.cols { display:grid; grid-template-columns:1fr 1fr; }
+.cols > div { padding:14px 18px; }
+.cols > div + div { border-left:1px solid var(--line); background:#fbfcfe; }
+.label { text-transform:uppercase; letter-spacing:.06em; font-size:.7rem; color:var(--muted); font-weight:700; margin-bottom:6px; }
+pre { white-space:pre-wrap; font-family:inherit; font-size:.88rem; line-height:1.5; margin:0; }
+mark { background:#fef3c7; padding:0 2px; border-radius:3px; }
+@media (max-width:760px) { .cols { grid-template-columns:1fr; } .cols > div + div { border-left:0; border-top:1px solid var(--line); } }
+</style></head>
+<body>
+<header>
+  <h1>Email drafts for review</h1>
+  <div class="sub">8 emails &middot; mode: offline demo (keyword rules + templates) &middot; generated 2026-11-17 10:23 &middot;
+  Nothing has been sent. Review each draft, fill in the highlighted notes, then send from your mail client.</div>
+</header>
+<div class="summary"><span class="pill" style="background:#059669">Booking: 1</span><span class="pill" style="background:#dc2626">Complaint: 1</span><span class="pill" style="background:#2563eb">Order status: 2</span><span class="pill" style="background:#6b7280">Other: 1</span><span class="pill" style="background:#9333ea">Refund / return: 3</span></div>
+<main>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Wholesale enquiry for our cafe</h2>
+      <div class="meta">Hannah Lee &lt;hannah@example-cafe.example&gt; &middot; 2026-11-16 12:24 &middot; 07.eml</div>
+    </div>
+    <div class="tags"><span class="flag">Low confidence - review intent</span>
+      <span class="pill" style="background:#6b7280">Other</span>
+      <span class="conf">50% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hello Bramble &amp; Co team,
+
+I run a small cafe and would like to know if you offer wholesale prices for your stoneware mugs (around 60 units).
+
+Kind regards,
+Hannah Lee</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Hannah,
+
+Thank you for your email. I&#x27;ve passed your question to the right person on our team and we&#x27;ll get back to you within one working day.
+
+<mark>[CHECK: answer the question or forward to the right person]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Order BC-10560 arrived damaged - refund?</h2>
+      <div class="meta">Oliver Grant &lt;oliver.grant@example.com&gt; &middot; 2026-11-16 13:01 &middot; 08.eml</div>
+    </div>
+    <div class="tags"><span class="flag">Low confidence - review intent</span>
+      <span class="pill" style="background:#9333ea">Refund / return</span>
+      <span class="conf">71% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hi,
+My order BC-10560 arrived today but the glass carafe is cracked. I&#x27;d prefer a refund rather than a replacement.
+Photos attached in my next email.
+Oliver</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Oliver,
+
+Thank you for your message about order BC-10560, and sorry it didn&#x27;t work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we&#x27;ll refund it in full at no cost to you.
+
+<mark>[CHECK: confirm eligibility and send the return label / refund confirmation]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Where is my order?</h2>
+      <div class="meta">Emma Carter &lt;emma.carter@example.com&gt; &middot; 2026-11-16 08:42 &middot; 01.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#2563eb">Order status</span>
+      <span class="conf">89% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hi,
+
+I ordered a linen throw and two mugs last Tuesday (order #BC-10482) and it still shows as processing. Could you tell me when it will ship?
+
+Thanks,
+Emma</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Emma,
+
+Thanks for getting in touch about order BC-10482. I&#x27;m checking its status with our warehouse now and will email you the tracking link as soon as it has been dispatched. Orders usually leave us within 2 working days.
+
+<mark>[CHECK: add the current status / tracking link from the order system]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Tracking number for order BC-10517</h2>
+      <div class="meta">Liam Walsh &lt;liam.walsh@example.net&gt; &middot; 2026-11-16 09:19 &middot; 02.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#2563eb">Order status</span>
+      <span class="conf">89% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hello, can you send me the tracking number for order BC-10517? The confirmation email didn&#x27;t include one. Cheers, Liam</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Liam,
+
+Thanks for getting in touch about order BC-10517. I&#x27;m checking its status with our warehouse now and will email you the tracking link as soon as it has been dispatched. Orders usually leave us within 2 working days.
+
+<mark>[CHECK: add the current status / tracking link from the order system]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Refund request - wrong size</h2>
+      <div class="meta">Sofia Nguyen &lt;sofia.n@example.org&gt; &middot; 2026-11-16 09:56 &middot; 03.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#9333ea">Refund / return</span>
+      <span class="conf">93% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hi there,
+
+The table runner I received (order BC-10391) is too short for our table. I&#x27;d like to return it and get a refund please. It&#x27;s unused and still in the packaging.
+
+Best,
+Sofia Nguyen</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Sofia,
+
+Thank you for your message about order BC-10391, and sorry it didn&#x27;t work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we&#x27;ll refund it in full at no cost to you.
+
+<mark>[CHECK: confirm eligibility and send the return label / refund confirmation]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Money back for cancelled item</h2>
+      <div class="meta">Daniel Brooks &lt;dbrooks@example.com&gt; &middot; 2026-11-16 10:33 &middot; 04.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#9333ea">Refund / return</span>
+      <span class="conf">95% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>I cancelled the oak shelf from my order two weeks ago but I have not been refunded yet. Please can you check and reimburse me. Order number BC-10233.
+
+Daniel</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Daniel,
+
+Thank you for your message about order BC-10233, and sorry it didn&#x27;t work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we&#x27;ll refund it in full at no cost to you.
+
+<mark>[CHECK: confirm eligibility and send the return label / refund confirmation]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Booking the pottery workshop</h2>
+      <div class="meta">Priya Shah &lt;priya.shah@example.com&gt; &middot; 2026-11-16 11:10 &middot; 05.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#059669">Booking</span>
+      <span class="conf">95% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hi! I&#x27;d love to book two places on your Saturday pottery workshop, ideally 6 December. Are there still spaces available, and how do I pay?
+
+Priya</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Priya,
+
+Thanks for your interest in our pottery workshop! Workshops run on Saturdays from 10:00 to 12:30 and you can book and pay for places on our website.
+
+<mark>[CHECK: confirm availability for the requested date and number of places]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Very disappointed - broken vase</h2>
+      <div class="meta">Mark O&#x27;Neill &lt;mark.oneill@example.net&gt; &middot; 2026-11-16 11:47 &middot; 06.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#dc2626">Complaint</span>
+      <span class="conf">95% (rules)</span>
+    </div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>This is the second time an order from you has arrived damaged. The ceramic vase in order BC-10455 was smashed and the box was barely padded. Honestly this is unacceptable and I expect better.
+
+Mark O&#x27;Neill</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Mark,
+
+I&#x27;m really sorry to hear about your experience with order BC-10455 - that&#x27;s not the standard we aim for. Could you send us a photo of the damage? We&#x27;ll then arrange a replacement or a full refund, whichever you prefer, at no cost to you.
+
+<mark>[CHECK: review the order history and escalate to a manager if needed]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article></main>
+</body></html>

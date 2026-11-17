@@ -1,0 +1,7 @@
+Hi $first_name,
+
+I'm really sorry to hear about your experience with order $order_number - that's not the standard we aim for. Could you send us a photo of the damage? We'll then arrange a replacement or a full refund, whichever you prefer, at no cost to you.
+
+[CHECK: review the order history and escalate to a manager if needed]
+
+$signature
