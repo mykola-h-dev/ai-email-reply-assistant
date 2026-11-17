@@ -23,16 +23,89 @@ main { padding:12px 5vw 40px; display:grid; gap:16px; }
 .label { text-transform:uppercase; letter-spacing:.06em; font-size:.7rem; color:var(--muted); font-weight:700; margin-bottom:6px; }
 pre { white-space:pre-wrap; font-family:inherit; font-size:.88rem; line-height:1.5; margin:0; }
 mark { background:#fef3c7; padding:0 2px; border-radius:3px; }
+.extra { padding:10px 18px; border-bottom:1px solid var(--line); font-size:.86rem; display:grid; gap:4px; }
+.lbl { font-size:.75rem; background:#eef2ff; color:#3730a3; padding:2px 8px; border-radius:999px; margin-right:4px; }
+.note { color:#92400e; }
 @media (max-width:760px) { .cols { grid-template-columns:1fr; } .cols > div + div { border-left:0; border-top:1px solid var(--line); } }
 </style></head>
 <body>
 <header>
   <h1>Email drafts for review</h1>
-  <div class="sub">8 emails &middot; mode: offline demo (keyword rules + templates) &middot; generated 2026-11-17 10:23 &middot;
+  <div class="sub">10 emails &middot; mode: offline demo (keyword rules + templates) &middot; generated 2026-11-17 10:55 &middot;
   Nothing has been sent. Review each draft, fill in the highlighted notes, then send from your mail client.</div>
 </header>
-<div class="summary"><span class="pill" style="background:#059669">Booking: 1</span><span class="pill" style="background:#dc2626">Complaint: 1</span><span class="pill" style="background:#2563eb">Order status: 2</span><span class="pill" style="background:#6b7280">Other: 1</span><span class="pill" style="background:#9333ea">Refund / return: 3</span></div>
+<div class="summary"><span class="pill" style="background:#059669">Booking: 1</span><span class="pill" style="background:#dc2626">Complaint: 1</span><span class="pill" style="background:#2563eb">Order status: 2</span><span class="pill" style="background:#6b7280">Other: 1</span><span class="pill" style="background:#9333ea">Refund / return: 5</span></div>
 <main>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Still no refund - I will open a chargeback</h2>
+      <div class="meta">Tom Reilly &lt;tom.reilly@example.com&gt; &middot; 2026-11-16 14:15 &middot; 10.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#b91c1c">urgent</span>
+      <span class="pill" style="background:#9333ea">Refund / return</span>
+      <span class="conf">89% (rules)</span>
+    </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> I sent the faulty lamp back three weeks ago (order BC-10288) and I have still not had my refund of $64.</div>
+    <div><span class="lbl">Refund</span><span class="lbl">Damaged item</span><span class="lbl">Payment</span><span class="lbl">Legal risk</span><span class="lbl">Repeat issue</span></div>
+    <div class="note">Rule: Chargeback or legal threat is urgent - Customer mentions a chargeback or legal step - reply today.</div><div class="note">Rule: Repeat problem is urgent</div>
+    <div>FAQ: FAQ-03 My item arrived damaged or broken. What should I do?, FAQ-06 Can I cancel or change my order?</div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>I sent the faulty lamp back three weeks ago (order BC-10288) and I have still not had my refund of $64. Nobody has answered my last two emails. If I don&#x27;t hear back by Friday I will open a chargeback with my bank.
+
+Tom Reilly</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre><mark>[CHECK: escalated to manager@brambleandco.example - get approval before sending]</mark>
+
+Hi Tom,
+
+Thank you for your message about order BC-10288, and sorry it didn&#x27;t work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we&#x27;ll refund it in full at no cost to you.
+
+<mark>[CHECK: confirm eligibility and send the return label / refund confirmation]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
+      <h2>Very disappointed - broken vase</h2>
+      <div class="meta">Mark O&#x27;Neill &lt;mark.oneill@example.net&gt; &middot; 2026-11-16 11:47 &middot; 06.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#b91c1c">urgent</span>
+      <span class="pill" style="background:#dc2626">Complaint</span>
+      <span class="conf">95% (rules)</span>
+    </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> This is the second time an order from you has arrived damaged.</div>
+    <div><span class="lbl">Complaint</span><span class="lbl">Damaged item</span><span class="lbl">Repeat issue</span></div>
+    <div class="note">Rule: Repeat problem is urgent</div>
+    <div>FAQ: FAQ-03 My item arrived damaged or broken. What should I do?, FAQ-01 When will my order be dispatched?</div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>This is the second time an order from you has arrived damaged. The ceramic vase in order BC-10455 was smashed and the box was barely padded. Honestly this is unacceptable and I expect better.
+
+Mark O&#x27;Neill</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Mark,
+
+I&#x27;m really sorry to hear about your experience with order BC-10455 - that&#x27;s not the standard we aim for. Could you send us a photo of the damage? We&#x27;ll then arrange a replacement or a full refund, whichever you prefer, at no cost to you.
+
+<mark>[CHECK: review the order history and escalate to a manager if needed]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
 <article class="card">
   <div class="card-head">
     <div>
@@ -40,9 +113,16 @@ mark { background:#fef3c7; padding:0 2px; border-radius:3px; }
       <div class="meta">Hannah Lee &lt;hannah@example-cafe.example&gt; &middot; 2026-11-16 12:24 &middot; 07.eml</div>
     </div>
     <div class="tags"><span class="flag">Low confidence - review intent</span>
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#6b7280">Other</span>
       <span class="conf">50% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> I run a small cafe and would like to know if you offer wholesale prices for your stoneware mugs (around 60 units).</div>
+    <div><span class="lbl">General</span><span class="lbl">Sales lead</span><span class="lbl">Trade account</span></div>
+    <div class="note">Rule: Trade customers get a label</div>
+    <div>FAQ: FAQ-04 Do you offer wholesale or trade prices?, FAQ-09 How should I care for stoneware mugs and bowls?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>Hello Bramble &amp; Co team,
@@ -53,7 +133,7 @@ Kind regards,
 Hannah Lee</pre></div>
     <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Hannah,
 
-Thank you for your email. I&#x27;ve passed your question to the right person on our team and we&#x27;ll get back to you within one working day.
+Thank you for your email. Yes, we offer trade prices for cafes, shops and restaurants on orders of 24 or more units of the same item. Our trade team sends the price list on request.
 
 <mark>[CHECK: answer the question or forward to the right person]</mark>
 
@@ -70,9 +150,16 @@ hello@brambleandco.example
       <div class="meta">Oliver Grant &lt;oliver.grant@example.com&gt; &middot; 2026-11-16 13:01 &middot; 08.eml</div>
     </div>
     <div class="tags"><span class="flag">Low confidence - review intent</span>
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#9333ea">Refund / return</span>
       <span class="conf">71% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> My order BC-10560 arrived today but the glass carafe is cracked.</div>
+    <div><span class="lbl">Refund</span><span class="lbl">Damaged item</span><span class="lbl">Payment</span></div>
+    
+    <div>FAQ: FAQ-03 My item arrived damaged or broken. What should I do?, FAQ-06 Can I cancel or change my order?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>Hi,
@@ -94,13 +181,59 @@ hello@brambleandco.example
 <article class="card">
   <div class="card-head">
     <div>
+      <h2>Refund for order BC-10602 - dining chairs</h2>
+      <div class="meta">Grace Fitzgerald &lt;grace.fitz@example.co.uk&gt; &middot; 2026-11-16 13:38 &middot; 09.eml</div>
+    </div>
+    <div class="tags">
+      <span class="pill" style="background:#475569">normal</span>
+      <span class="pill" style="background:#9333ea">Refund / return</span>
+      <span class="conf">78% (rules)</span>
+    </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> I returned the two oak dining chairs from order BC-10602 last week (tracking shows you received them on Friday).</div>
+    <div><span class="lbl">Refund</span><span class="lbl">Shipping</span><span class="lbl">Payment</span><span class="lbl">Escalated</span></div>
+    <div class="note">Rule: Refund over $100 needs a manager - Refund over $100 - a manager must approve before replying.</div>
+    <div>FAQ: FAQ-01 When will my order be dispatched?, FAQ-06 Can I cancel or change my order?</div>
+  </div>
+  <div class="cols">
+    <div><div class="label">Customer email</div><pre>Hello,
+
+I returned the two oak dining chairs from order BC-10602 last week (tracking shows you received them on Friday). The order total was $240. Please can you confirm when the refund will be processed?
+
+Thank you,
+Grace</pre></div>
+    <div><div class="label">Draft reply (template) - not sent</div><pre><mark>[CHECK: escalated to manager@brambleandco.example - get approval before sending]</mark>
+
+Hi Grace,
+
+Thank you for your message about order BC-10602, and sorry it didn&#x27;t work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we&#x27;ll refund it in full at no cost to you.
+
+<mark>[CHECK: confirm eligibility and send the return label / refund confirmation]</mark>
+
+Best wishes,
+The Bramble &amp; Co team
+hello@brambleandco.example
+</pre></div>
+  </div>
+</article>
+<article class="card">
+  <div class="card-head">
+    <div>
       <h2>Where is my order?</h2>
       <div class="meta">Emma Carter &lt;emma.carter@example.com&gt; &middot; 2026-11-16 08:42 &middot; 01.eml</div>
     </div>
     <div class="tags">
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#2563eb">Order status</span>
       <span class="conf">89% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> I ordered a linen throw and two mugs last Tuesday (order #BC-10482) and it still shows as processing.</div>
+    <div><span class="lbl">Order status</span><span class="lbl">Shipping</span></div>
+    
+    <div>FAQ: FAQ-01 When will my order be dispatched?, FAQ-06 Can I cancel or change my order?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>Hi,
@@ -128,9 +261,16 @@ hello@brambleandco.example
       <div class="meta">Liam Walsh &lt;liam.walsh@example.net&gt; &middot; 2026-11-16 09:19 &middot; 02.eml</div>
     </div>
     <div class="tags">
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#2563eb">Order status</span>
       <span class="conf">89% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> Can you send me the tracking number for order BC-10517?</div>
+    <div><span class="lbl">Order status</span><span class="lbl">Shipping</span></div>
+    
+    <div>FAQ: FAQ-01 When will my order be dispatched?, FAQ-06 Can I cancel or change my order?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>Hello, can you send me the tracking number for order BC-10517? The confirmation email didn&#x27;t include one. Cheers, Liam</pre></div>
@@ -153,9 +293,16 @@ hello@brambleandco.example
       <div class="meta">Sofia Nguyen &lt;sofia.n@example.org&gt; &middot; 2026-11-16 09:56 &middot; 03.eml</div>
     </div>
     <div class="tags">
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#9333ea">Refund / return</span>
       <span class="conf">93% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> The table runner I received (order BC-10391) is too short for our table.</div>
+    <div><span class="lbl">Refund</span><span class="lbl">Payment</span></div>
+    
+    <div>FAQ: FAQ-02 How do I return an item and get a refund?, FAQ-06 Can I cancel or change my order?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>Hi there,
@@ -183,9 +330,16 @@ hello@brambleandco.example
       <div class="meta">Daniel Brooks &lt;dbrooks@example.com&gt; &middot; 2026-11-16 10:33 &middot; 04.eml</div>
     </div>
     <div class="tags">
+      <span class="pill" style="background:#475569">normal</span>
       <span class="pill" style="background:#9333ea">Refund / return</span>
       <span class="conf">95% (rules)</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> I cancelled the oak shelf from my order two weeks ago but I have not been refunded yet.</div>
+    <div><span class="lbl">Refund</span><span class="lbl">Payment</span></div>
+    
+    <div>FAQ: FAQ-06 Can I cancel or change my order?, FAQ-02 How do I return an item and get a refund?</div>
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>I cancelled the oak shelf from my order two weeks ago but I have not been refunded yet. Please can you check and reimburse me. Order number BC-10233.
@@ -210,12 +364,19 @@ hello@brambleandco.example
       <div class="meta">Priya Shah &lt;priya.shah@example.com&gt; &middot; 2026-11-16 11:10 &middot; 05.eml</div>
     </div>
     <div class="tags">
+      <span class="pill" style="background:#94a3b8">low</span>
       <span class="pill" style="background:#059669">Booking</span>
       <span class="conf">95% (rules)</span>
     </div>
   </div>
+  <div class="extra">
+    <div><b>Summary:</b> I&#x27;d love to book two places on your Saturday pottery workshop, ideally 6 December.</div>
+    <div><span class="lbl">Booking</span><span class="lbl">Payment</span><span class="lbl">Workshop</span></div>
+    
+    <div>FAQ: FAQ-05 How do pottery workshop bookings work?, FAQ-10 Which payment methods do you accept?</div>
+  </div>
   <div class="cols">
-    <div><div class="label">Customer email</div><pre>Hi! I&#x27;d love to book two places on your Saturday pottery workshop, ideally 6 December. Are there still spaces available, and how do I pay?
+    <div><div class="label">Customer email</div><pre>Hi! I&#x27;d love to book two places on your Saturday pottery workshop, ideally 6 December. Are there still spaces available, and how do I pay? No rush, whenever you get a chance.
 
 Priya</pre></div>
     <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Priya,
@@ -223,33 +384,6 @@ Priya</pre></div>
 Thanks for your interest in our pottery workshop! Workshops run on Saturdays from 10:00 to 12:30 and you can book and pay for places on our website.
 
 <mark>[CHECK: confirm availability for the requested date and number of places]</mark>
-
-Best wishes,
-The Bramble &amp; Co team
-hello@brambleandco.example
-</pre></div>
-  </div>
-</article>
-<article class="card">
-  <div class="card-head">
-    <div>
-      <h2>Very disappointed - broken vase</h2>
-      <div class="meta">Mark O&#x27;Neill &lt;mark.oneill@example.net&gt; &middot; 2026-11-16 11:47 &middot; 06.eml</div>
-    </div>
-    <div class="tags">
-      <span class="pill" style="background:#dc2626">Complaint</span>
-      <span class="conf">95% (rules)</span>
-    </div>
-  </div>
-  <div class="cols">
-    <div><div class="label">Customer email</div><pre>This is the second time an order from you has arrived damaged. The ceramic vase in order BC-10455 was smashed and the box was barely padded. Honestly this is unacceptable and I expect better.
-
-Mark O&#x27;Neill</pre></div>
-    <div><div class="label">Draft reply (template) - not sent</div><pre>Hi Mark,
-
-I&#x27;m really sorry to hear about your experience with order BC-10455 - that&#x27;s not the standard we aim for. Could you send us a photo of the damage? We&#x27;ll then arrange a replacement or a full refund, whichever you prefer, at no cost to you.
-
-<mark>[CHECK: review the order history and escalate to a manager if needed]</mark>
 
 Best wishes,
 The Bramble &amp; Co team

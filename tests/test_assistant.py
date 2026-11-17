@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+import shutil
 import tempfile
 import unittest
 
@@ -14,7 +15,8 @@ from assistant.main import main  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXPECTED = {"01.eml": "order_status", "02.eml": "order_status", "03.eml": "refund", "04.eml": "refund",
-            "05.eml": "booking", "06.eml": "complaint", "07.eml": "other", "08.eml": "refund"}
+            "05.eml": "booking", "06.eml": "complaint", "07.eml": "other", "08.eml": "refund",
+            "09.eml": "refund", "10.eml": "refund"}
 
 
 class AssistantTests(unittest.TestCase):
@@ -35,9 +37,10 @@ class AssistantTests(unittest.TestCase):
 
     def test_end_to_end_writes_drafts_and_report(self):
         out = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, out, True)
         self.assertEqual(main(["--offline", "--out", str(out)]), 0)
         drafts = sorted(p.name for p in out.glob("*.eml"))
-        self.assertEqual(len(drafts), 8)
+        self.assertEqual(len(drafts), 10)
         self.assertIn("01-order_status.eml", drafts)
         first = (out / "01-order_status.eml").read_text()
         self.assertIn("X-Draft-Status: needs-human-review", first)
@@ -48,6 +51,7 @@ class AssistantTests(unittest.TestCase):
 
     def test_missing_order_number_reads_naturally(self):
         out = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, out, True)
         main(["--offline", "--out", str(out)])
         booking = (out / "05-booking.eml").read_text()
         self.assertNotIn("$", booking)  # every template placeholder was filled

@@ -1,106 +1,173 @@
 # AI Email Reply Assistant
 
-**Reads incoming customer emails, works out what each one is about, and prepares a reply draft in your company's tone - for a person to check and send. It never sends anything on its own.**
+![tests](https://img.shields.io/badge/tests-37%20passing%20offline-brightgreen) ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![sends email](https://img.shields.io/badge/sends%20email-never-lightgrey)
 
-![Review page listing emails with detected intent, confidence and draft reply](docs/screenshot.png)
+**Reads incoming customer emails, sorts them by urgency, applies your business rules, and writes reply drafts grounded in your own FAQ. A person reviews, edits and approves each draft in the browser. Nothing is ever sent automatically.**
 
-*Screenshot: the review page (`drafts/report.html`) after an offline run on the fictional sample inbox. Low-confidence emails are listed first and flagged. Notes the reviewer must complete are highlighted.*
+![Review queue: urgent emails first, rules fired, escalation, FAQ citations, editable draft, follow-up panel](docs/screenshot.png)
+
+*The review UI (`python -m assistant.review`) after an offline run on the fictional sample inbox. Urgent emails come first; the chargeback email fired two rules and is escalated to a manager; the right panel lists threads where the customer has not answered our last reply.*
+
+## What it does
+
+```mermaid
+flowchart LR
+    A[Inbox<br/>.eml folder or IMAP read-only] --> B[Classify intent<br/>LLM or keyword rules]
+    B --> C[Triage<br/>summary, priority, labels]
+    C --> D[rules.json<br/>escalate, urgent, labels]
+    D --> E[FAQ retriever<br/>BM25 over knowledge/faq.json]
+    E --> F[Draft reply<br/>LLM or template + FAQ]
+    F --> G[(drafts/<br/>drafts.json, .eml, report)]
+    H[Sent history] --> I[Follow-up tracker]
+    I --> G
+    G --> J[Review UI :8030<br/>approve / edit / discard]
+    J --> K[drafts/approved/<br/>.eml + approved.json]
+    J -. only with --imap-append .-> L[Mailbox Drafts folder<br/>IMAP APPEND]
+```
 
 ## Features
 
-- **Inbox sources**
-  - Demo: a folder of `.eml` files (`sample_inbox/`, 8 fictional customer emails, one of them HTML-only).
-  - Real: any IMAP mailbox (Gmail, Outlook, Fastmail...) opened **read-only**: messages are fetched with `BODY.PEEK[]` and are not marked as read, moved or deleted.
-- **Intent detection** - order status, refund/return, booking, complaint, other - with a confidence score.
-  - AI mode: the LLM returns the intent as JSON.
-  - Offline mode: transparent weighted keyword rules (subject counts double), easy to tune per business.
-- **Reply drafts**
-  - Offline: the company's own templates (`templates/*.txt`) filled with the customer's first name and order number found in the email.
-  - AI mode: the LLM adapts the template to the specific email using **only** the facts in `templates/company.json`.
-  - Anything that needs live data (tracking, availability, refund approval) is left as a highlighted `[CHECK: ...]` note.
-- **Human in the loop** - outputs are drafts only:
-  - `drafts/NN-intent.eml` - threaded reply drafts (`In-Reply-To` set) that open in any mail client
-  - `drafts/drafts.json` - structured results for a sheet, helpdesk or n8n
-  - `drafts/report.html` - review page, least-confident first
-- **Safe fallback** - if the AI call fails (network, quota, bad key), each email falls back to rules + templates and the report says so.
-- Quoted reply history is stripped before classification; HTML emails are converted to text.
+| Feature | This project | Typical "AI reply" script |
+|---|---|---|
+| Human approval | Web review queue: approve, edit, discard, back to review; decisions saved in `review_state.json` | Sends automatically or dumps text to a file |
+| Triage | One-line summary, priority (urgent / normal / low), suggested labels per email | Intent only |
+| Business rules | `rules.json`: e.g. refund over $100 -> escalate to manager; chargeback / legal words -> urgent; trade-customer domain -> label. Shown on each card | Hard-coded in the prompt |
+| Grounded answers | BM25 search over a company FAQ (`knowledge/faq.json`); entries passed to the LLM and cited as `FAQ-04` in the UI | LLM answers from general knowledge |
+| Follow-up tracker | Threads where we replied last and the customer has not answered in more than N days (default 3) | - |
+| Mailbox integration | Reads IMAP **read-only**; puts approved drafts in the **Drafts** folder with IMAP `APPEND`, only behind `--imap-append` | Needs full send access |
+| Works without AI | Offline mode: keyword rules, extractive summary, templates + FAQ. Any AI error falls back per email | Fails without a key |
+| Deploy | One command, Dockerfile + docker-compose, GitHub Actions CI | - |
 
-## Quick start (offline demo, one command)
+There is **no SMTP code in this project**. The approved draft lands in your mail client's Drafts folder (or as an `.eml` file); a person presses Send.
 
-Requirements: Python 3.10+ and `requests` (only used in AI mode).
+## Quick start (offline demo, no keys)
+
+Requirements: Python 3.10+ and `requests` (used only in AI mode).
 
 ```bash
-python -m assistant.main
+python -m assistant.main      # read sample_inbox/, write drafts/ (nothing is sent)
+python -m assistant.review    # open http://127.0.0.1:8030
 ```
 
-Then open `drafts/report.html` in a browser. The committed `drafts/` folder contains the output of this command.
-
-AI mode:
+Or with Docker (files provided, not built in this repo's test run):
 
 ```bash
-cp .env.example .env     # add GEMINI_API_KEY (gemini-2.5-flash) or OPENAI_API_KEY
-python -m assistant.main
+docker compose up --build     # http://127.0.0.1:8030
 ```
 
-Real mailbox (read-only):
-
-```bash
-# set IMAP_HOST, IMAP_USER, IMAP_PASSWORD in .env
-python -m assistant.main --source imap
-```
-
-Other options: `--offline` (ignore API keys), `--inbox PATH`, `--out PATH`, `--templates PATH`.
-
-Run the tests:
+Run the tests (offline, no network):
 
 ```bash
 python -m unittest discover tests
 ```
 
-## Sample result (offline mode)
+### AI mode
 
-| Email | Detected intent | Confidence |
-|---|---|---|
-| Where is my order? | Order status | 0.89 |
-| Tracking number for order BC-10517 | Order status | 0.89 |
-| Refund request - wrong size | Refund / return | 0.93 |
-| Money back for cancelled item | Refund / return | 0.95 |
-| Booking the pottery workshop | Booking | 0.95 |
-| Very disappointed - broken vase | Complaint | 0.95 |
-| Wholesale enquiry for our cafe | Other | 0.50 (flagged) |
-| Order BC-10560 arrived damaged - refund? | Refund / return | 0.71 (flagged: also reads as a complaint) |
+```bash
+cp .env.example .env          # add GEMINI_API_KEY (gemini-2.5-flash) or OPENAI_API_KEY
+python -m assistant.main
+```
 
-These are the rule-based scores on the 8 fictional sample emails, not a measured accuracy figure.
+The LLM classifies, writes the summary/priority/labels as JSON and adapts the template using only the company facts and the retrieved FAQ entries. Invalid JSON, timeouts, quota or a wrong key fall back to the offline method for that email, and the UI shows which method was used.
+
+### Real mailbox
+
+```bash
+# set IMAP_HOST, IMAP_USER, IMAP_PASSWORD in .env (an app password where the provider supports it)
+python -m assistant.main --source imap          # read unread mail, read-only, nothing marked as read
+python -m assistant.review --imap-append        # approving a draft also APPENDs it to Drafts
+python -m assistant.imap_drafts                 # dry run: list approved drafts not yet in Drafts
+python -m assistant.imap_drafts --imap-append   # append them (never sends)
+```
+
+## Sample result (offline mode, fictional inbox)
+
+| Email | Intent (confidence) | Priority | Rules fired |
+|---|---|---|---|
+| Still no refund - I will open a chargeback | Refund 0.89 | urgent | Chargeback or legal threat is urgent; Repeat problem is urgent |
+| Very disappointed - broken vase | Complaint 0.95 | urgent | Repeat problem is urgent |
+| Refund for order BC-10602 - dining chairs ($240) | Refund 0.78 | normal | Refund over $100 needs a manager -> escalated |
+| Wholesale enquiry for our cafe | Other 0.50 | normal | Trade customers get a label; draft answered from FAQ-04 |
+| Booking the pottery workshop ("no rush") | Booking 0.95 | low | - |
+| 5 more (order status, refunds, damaged item) | | normal | - |
+
+Follow-ups from `sample_history/`: "Chipped bowl" overdue (6.1 days without an answer), "Gift card not received" waiting (1.2 days), "Mug colours" not listed because the customer replied last.
+
+These are the rule-based outputs on 10 made-up emails, not a measured accuracy figure.
+
+## Configuration
+
+| Variable / file | Purpose |
+|---|---|
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini key and model (default `gemini-2.5-flash`). Read from the environment only, never logged |
+| `OPENAI_API_KEY`, `OPENAI_MODEL` | Used if no Gemini key is set (default `gpt-4o-mini`) |
+| `IMAP_HOST`, `IMAP_USER`, `IMAP_PASSWORD`, `IMAP_PORT` | Mailbox for `--source imap` and `--imap-append` |
+| `IMAP_MAILBOX`, `IMAP_LIMIT` | Folder and number of unread emails to read |
+| `IMAP_DRAFTS_FOLDER` | Where approved drafts go (`Drafts`; Gmail: `[Gmail]/Drafts`) |
+| `rules.json` | Business rules. Conditions: `intent_in`, `keywords_any`, `amount_over`, `sender_domain_in`, `priority_in`. Actions: `priority`, `add_labels`, `escalate_to`, `note`. Unknown keys are rejected |
+| `knowledge/faq.json` | The FAQ the drafts are grounded in |
+| `templates/` | `company.json` (facts, signature) and one reply template per intent |
+| `--followup-days N` | Days without a customer answer before a thread is "overdue" |
+
+With the sample folder, "now" for the follow-up tracker is the newest sample message, so the demo gives the same result on any day. With IMAP it is the real time.
+
+## Review API (used by the UI)
+
+```
+GET  /api/drafts                 drafts + triage + rules + FAQ + review status
+GET  /api/followups              threads waiting for the customer
+GET  /api/approved               approved drafts as JSON
+POST /api/drafts/<id>/approve    {"draft": "optional edited text"}
+POST /api/drafts/<id>/save       {"draft": "..."}
+POST /api/drafts/<id>/discard
+POST /api/drafts/<id>/reopen
+```
+
+The server listens on 127.0.0.1 by default and has no login: put it behind a VPN or a reverse proxy with authentication before exposing it.
+
+## What needs real accounts (not tested in this repo)
+
+- **AI mode** needs your own Gemini or OpenAI key. The AI code paths are covered by tests with a mocked LLM, including the fallbacks; real model output was not part of the test run.
+- **IMAP read and APPEND** need a real mailbox. APPEND is tested against a fake IMAP class (folder, `\Draft` flag, login/logout, failure kept visible in the UI). Providers differ in Drafts folder names and app-password rules.
+- **Docker** files are provided but were not built in this environment.
 
 ## Adapting it for a client
 
-- Replace `templates/company.json` (facts, signature) and the five templates with the client's real policies and tone; add intents such as "invoice request" or "change of address" by adding a rule list and a template.
-- Connect live data: look up order status in Shopify/WooCommerce by the extracted order number and fill the `[CHECK]` notes automatically.
-- Put drafts where the team works: save them into the mailbox's Drafts folder (IMAP `APPEND`, needs write access the client approves), into a helpdesk (Zendesk, Help Scout, Freshdesk), or into a Google Sheet for approval.
-- Schedule it every 10 minutes with cron/systemd, or trigger it from an n8n workflow.
-- Keep the human review step; add auto-send only for narrow, low-risk cases the client explicitly approves.
+- Replace `templates/company.json`, the templates and `knowledge/faq.json` with the client's policies and help-centre articles.
+- Add rules in `rules.json` (VIP domains, thresholds, words that need a manager).
+- Connect live data: order status from Shopify/WooCommerce by the extracted order number to fill `[CHECK]` notes.
+- Run `assistant.main` every 10 minutes with cron/systemd or from n8n; keep the review step.
 
 ## Sample data
 
-`sample_inbox/` is generated by `scripts/make_sample_inbox.py`. **Bramble & Co and all senders, addresses and order numbers are fictional.**
+`sample_inbox/` (10 emails) and `sample_history/` (3 older threads) are generated by `scripts/make_sample_inbox.py`. **Bramble & Co and all people, addresses, order numbers and FAQ answers are fictional.**
 
 ## File tree
 
 ```
 ai-email-reply/
 ├── assistant/
-│   ├── main.py          # CLI: read -> classify -> draft -> save (never sends)
-│   ├── inbox.py         # .eml folder reader + read-only IMAP reader, HTML to text
-│   ├── classifier.py    # LLM or keyword-rule intent detection with confidence
-│   ├── drafter.py       # template filling or LLM draft using company facts
-│   ├── report.py        # HTML review page
+│   ├── main.py          # CLI: read -> classify -> triage -> rules -> FAQ -> draft -> save
+│   ├── review.py        # review UI + JSON API (stdlib http.server, port 8030)
+│   ├── web/review.html  # the review page (vanilla JS, no build step)
+│   ├── store.py         # approve / edit / discard state + approved/ export
+│   ├── triage.py        # summary, priority, labels (LLM or rules)
+│   ├── rules.py         # rules.json engine (amounts, keywords, domains)
+│   ├── knowledge.py     # FAQ knowledge base + BM25 retriever
+│   ├── followups.py     # threads waiting for a customer reply
+│   ├── imap_drafts.py   # IMAP APPEND to Drafts behind --imap-append (never sends)
+│   ├── classifier.py    # intent: LLM or keyword rules
+│   ├── drafter.py       # template / LLM drafts grounded in facts + FAQ
+│   ├── inbox.py         # .eml folder reader + read-only IMAP reader
+│   ├── eml.py           # draft .eml builder
+│   ├── report.py        # static HTML report
 │   └── llm.py           # Gemini / OpenAI REST client (requests)
-├── templates/           # company.json + one reply template per intent
-├── sample_inbox/        # 8 fictional .eml emails
-├── drafts/              # output of the offline demo run (drafts, JSON, report)
-├── scripts/make_sample_inbox.py
-├── tests/test_assistant.py
-├── docs/screenshot.png
-├── .env.example
-└── requirements.txt
+├── knowledge/faq.json   # fictional FAQ
+├── rules.json           # business rules
+├── templates/           # company facts + reply templates
+├── sample_inbox/  sample_history/
+├── drafts/              # output of the offline demo run
+├── tests/               # 37 offline tests
+├── Dockerfile  docker-compose.yml  .github/workflows/tests.yml
+└── docs/screenshot.png  docs/screenshot-mobile.png
 ```

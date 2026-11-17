@@ -6,6 +6,8 @@ from datetime import datetime
 
 INTENT_COLORS = {"order_status": "#2563eb", "refund": "#9333ea", "booking": "#059669",
                  "complaint": "#dc2626", "other": "#6b7280"}
+PRIORITY_COLORS = {"urgent": "#b91c1c", "normal": "#475569", "low": "#94a3b8"}
+PRIORITY_ORDER = {"urgent": 0, "normal": 1, "low": 2}
 REVIEW_THRESHOLD = 0.75  # below this the card is flagged for a closer look
 
 STYLE = """
@@ -31,6 +33,9 @@ main { padding:12px 5vw 40px; display:grid; gap:16px; }
 .label { text-transform:uppercase; letter-spacing:.06em; font-size:.7rem; color:var(--muted); font-weight:700; margin-bottom:6px; }
 pre { white-space:pre-wrap; font-family:inherit; font-size:.88rem; line-height:1.5; margin:0; }
 mark { background:#fef3c7; padding:0 2px; border-radius:3px; }
+.extra { padding:10px 18px; border-bottom:1px solid var(--line); font-size:.86rem; display:grid; gap:4px; }
+.lbl { font-size:.75rem; background:#eef2ff; color:#3730a3; padding:2px 8px; border-radius:999px; margin-right:4px; }
+.note { color:#92400e; }
 @media (max-width:760px) { .cols { grid-template-columns:1fr; } .cols > div + div { border-left:0; border-top:1px solid var(--line); } }
 """
 
@@ -55,9 +60,16 @@ def _card(item):
       <div class="meta">{_esc(item['from'])} &middot; {_esc(item['date'])} &middot; {_esc(item['source'])}</div>
     </div>
     <div class="tags">{flag}
+      <span class="pill" style="background:{PRIORITY_COLORS.get(item.get('priority', 'normal'), '#475569')}">{_esc(item.get('priority', 'normal'))}</span>
       <span class="pill" style="background:{color}">{_esc(item['label'])}</span>
       <span class="conf">{item['confidence']:.0%} ({_esc(item['classified_by'])})</span>
     </div>
+  </div>
+  <div class="extra">
+    <div><b>Summary:</b> {_esc(item.get('summary', ''))}</div>
+    <div>{''.join(f'<span class="lbl">{_esc(l)}</span>' for l in item.get('labels', []))}</div>
+    {''.join(f'<div class="note">Rule: {_esc(r)}{(" - " + _esc(n)) if n else ""}</div>' for r, n in zip(item.get('rules_applied', []), item.get('notes', [])))}
+    {('<div>FAQ: ' + _esc(', '.join(f['id'] + ' ' + f['question'] for f in item.get('faq', []))) + '</div>') if item.get('faq') else ''}
   </div>
   <div class="cols">
     <div><div class="label">Customer email</div><pre>{_esc(item['body'])}</pre></div>
@@ -73,8 +85,8 @@ def build_report(items, mode):
     pills = "".join(f'<span class="pill" style="background:{INTENT_COLORS[intent]}">{_esc(label)}: {n}</span>'
                     for (label, intent), n in sorted(counts.items()))
     generated = datetime.now().strftime("%Y-%m-%d %H:%M")
-    # least confident first, so the reviewer starts with the emails most likely to need a manual decision
-    cards = "".join(_card(item) for item in sorted(items, key=lambda i: i["confidence"]))
+    # urgent first, then least confident, so the reviewer starts with the emails most likely to need a manual decision
+    cards = "".join(_card(item) for item in sorted(items, key=lambda i: (PRIORITY_ORDER.get(i.get("priority"), 1), i["confidence"])))
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Email drafts for review</title><style>{STYLE}</style></head>

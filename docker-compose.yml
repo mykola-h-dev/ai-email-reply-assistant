@@ -1,0 +1,11 @@
+services:
+  email-assistant:
+    build: .
+    ports:
+      - "127.0.0.1:8030:8030"
+    env_file:
+      - path: .env        # optional: GEMINI_API_KEY / OPENAI_API_KEY / IMAP_* (offline demo without it)
+        required: false
+    volumes:
+      - ./drafts:/app/drafts   # drafts, review decisions and approved exports stay on the host
+    restart: unless-stopped

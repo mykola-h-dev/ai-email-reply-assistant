@@ -18,6 +18,10 @@ class IncomingEmail:
     date: str
     body: str
     source: str  # file name or IMAP UID
+    to_email: str = ""
+    in_reply_to: str = ""
+    references: str = ""
+    date_iso: str = ""  # full timestamp with time zone, used by the follow-up tracker
 
 
 def html_to_text(markup):
@@ -46,10 +50,13 @@ def parse_message(raw_bytes, source):
         content = part.get_content()
         body = html_to_text(content) if part.get_content_type() == "text/html" else content
     name, address = parseaddr(msg.get("From", ""))
+    date = date_iso = ""
     try:
-        date = parsedate_to_datetime(msg["Date"]).strftime("%Y-%m-%d %H:%M") if msg["Date"] else ""
+        if msg["Date"]:
+            parsed = parsedate_to_datetime(msg["Date"])
+            date, date_iso = parsed.strftime("%Y-%m-%d %H:%M"), parsed.isoformat()
     except (TypeError, ValueError):
-        date = ""
+        pass
     return IncomingEmail(
         message_id=msg.get("Message-ID", ""),
         sender_name=name or address.split("@")[0],
@@ -58,6 +65,10 @@ def parse_message(raw_bytes, source):
         date=date,
         body=strip_quoted_reply(body.strip()),
         source=source,
+        to_email=parseaddr(str(msg.get("To", "")))[1].lower(),
+        in_reply_to=str(msg.get("In-Reply-To", "")).strip(),
+        references=str(msg.get("References", "")).strip(),
+        date_iso=date_iso,
     )
 
 

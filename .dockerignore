@@ -1,0 +1,6 @@
+.git
+.env
+__pycache__
+*.pyc
+drafts/approved
+drafts/review_state.json

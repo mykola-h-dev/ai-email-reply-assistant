@@ -1,0 +1,25 @@
+{
+  "_note": "Fictional FAQ for the demo company Bramble & Co. Replace with the client's real help-centre articles.",
+  "entries": [
+    {"id": "FAQ-01", "question": "When will my order be dispatched?",
+     "answer": "Orders are usually dispatched within 2 working days, and we email a tracking link as soon as the parcel leaves us."},
+    {"id": "FAQ-02", "question": "How do I return an item and get a refund?",
+     "answer": "Unused items can be returned within 30 days for a full refund. Refunds are issued within 5 working days of the return reaching us."},
+    {"id": "FAQ-03", "question": "My item arrived damaged or broken. What should I do?",
+     "answer": "Please send us a photo of the damage and we will replace or refund the item at no cost to you."},
+    {"id": "FAQ-04", "question": "Do you offer wholesale or trade prices?",
+     "answer": "Yes, we offer trade prices for cafes, shops and restaurants on orders of 24 or more units of the same item. Our trade team sends the price list on request."},
+    {"id": "FAQ-05", "question": "How do pottery workshop bookings work?",
+     "answer": "Pottery workshops run on Saturdays from 10:00 to 12:30. Places are booked and paid for on our website."},
+    {"id": "FAQ-06", "question": "Can I cancel or change my order?",
+     "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method."},
+    {"id": "FAQ-07", "question": "Do you ship outside the UK?",
+     "answer": "We currently ship to the UK and Ireland only."},
+    {"id": "FAQ-08", "question": "How do gift cards work?",
+     "answer": "Gift cards are emailed to the recipient within one hour of purchase and are valid for 12 months."},
+    {"id": "FAQ-09", "question": "How should I care for stoneware mugs and bowls?",
+     "answer": "Our stoneware is dishwasher and microwave safe. Hand washing keeps speckled glazes looking new for longer."},
+    {"id": "FAQ-10", "question": "Which payment methods do you accept?",
+     "answer": "We accept debit and credit cards, PayPal and Apple Pay at checkout."}
+  ]
+}

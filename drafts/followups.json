@@ -1,0 +1,18 @@
+[
+  {
+    "subject": "Chipped bowl in order BC-10301",
+    "customer": "Chloe Martin <chloe.m@example.com>",
+    "last_reply": "2026-11-10 11:40",
+    "days_waiting": 6.1,
+    "status": "overdue",
+    "messages": 2
+  },
+  {
+    "subject": "Gift card not received",
+    "customer": "Ben Hughes <ben.hughes@example.net>",
+    "last_reply": "2026-11-15 10:25",
+    "days_waiting": 1.2,
+    "status": "waiting",
+    "messages": 2
+  }
+]

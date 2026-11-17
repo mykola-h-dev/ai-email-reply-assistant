@@ -1,0 +1,27 @@
+{
+  "_note": "Business rules applied after classification. Edit freely; conditions in one rule must ALL match. Fictional examples for the demo company.",
+  "rules": [
+    {
+      "name": "Refund over $100 needs a manager",
+      "when": {"intent_in": ["refund"], "amount_over": 100},
+      "then": {"escalate_to": "manager@brambleandco.example", "add_labels": ["Escalated"],
+               "note": "Refund over $100 - a manager must approve before replying."}
+    },
+    {
+      "name": "Chargeback or legal threat is urgent",
+      "when": {"keywords_any": ["chargeback", "solicitor", "lawyer", "legal action", "small claims", "trading standards"]},
+      "then": {"priority": "urgent", "add_labels": ["Legal risk"], "escalate_to": "manager@brambleandco.example",
+               "note": "Customer mentions a chargeback or legal step - reply today."}
+    },
+    {
+      "name": "Repeat problem is urgent",
+      "when": {"keywords_any": ["second time", "third time", "again and again", "last two emails"]},
+      "then": {"priority": "urgent", "add_labels": ["Repeat issue"]}
+    },
+    {
+      "name": "Trade customers get a label",
+      "when": {"sender_domain_in": ["example-cafe.example"]},
+      "then": {"add_labels": ["Trade account"]}
+    }
+  ]
+}

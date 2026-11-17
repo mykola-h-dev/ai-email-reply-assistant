@@ -1,3 +1,6 @@
 .env
 __pycache__/
 *.pyc
+drafts/review_state.json
+drafts/review_state.tmp
+drafts/approved/

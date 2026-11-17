@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reply drafts - review</title>
+<style>
+:root { --bg:#f5f6f8; --card:#fff; --text:#1f2937; --muted:#6b7280; --line:#e5e7eb; --brand:#3f6b4f;
+        --urgent:#b91c1c; --normal:#475569; --low:#94a3b8; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
+header { background:#fff; border-bottom:1px solid var(--line); padding:16px 4vw 12px; }
+h1 { font-size:1.35rem; margin:0 0 4px; }
+.sub { color:var(--muted); font-size:.88rem; }
+.stats { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.stat { border:1px solid var(--line); border-radius:10px; padding:6px 12px; font-size:.85rem; background:#fafafa; cursor:pointer; }
+.stat b { font-size:1.05rem; margin-right:4px; }
+.stat.active { border-color:var(--brand); background:#eef5f0; }
+.layout { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:18px; padding:18px 4vw 40px; }
+aside .panel { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; position:sticky; top:12px; }
+aside h2 { font-size:.95rem; margin:0 0 8px; }
+.fu { border-top:1px solid var(--line); padding:8px 0; font-size:.84rem; }
+.fu .when { color:var(--muted); font-size:.78rem; }
+.badge { font-size:.7rem; font-weight:700; padding:2px 7px; border-radius:999px; color:#fff; text-transform:uppercase; letter-spacing:.03em; }
+.overdue { background:var(--urgent); } .waiting { background:var(--low); }
+main { display:grid; gap:14px; align-content:start; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+.card.approved { border-color:#86c79a; } .card.discarded { opacity:.55; }
+.head { display:flex; justify-content:space-between; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line); }
+.head h3 { margin:0 0 2px; font-size:1rem; }
+.meta { color:var(--muted); font-size:.8rem; }
+.tags { display:flex; gap:6px; align-items:flex-start; flex-wrap:wrap; justify-content:flex-end; }
+.p-urgent { background:var(--urgent); } .p-normal { background:var(--normal); } .p-low { background:var(--low); }
+.intent { background:#e0e7ff; color:#3730a3; } .st { background:#e5e7eb; color:#374151; }
+.st.approved { background:#dcfce7; color:#166534; } .st.discarded { background:#fee2e2; color:#991b1b; }
+.triage { padding:10px 16px; font-size:.86rem; border-bottom:1px solid var(--line); display:grid; gap:6px; background:#fcfcfd; }
+.lbl { display:inline-block; font-size:.74rem; background:#f1f5f9; border:1px solid #e2e8f0; padding:1px 8px; border-radius:999px; margin:0 4px 2px 0; }
+.rule { color:#92400e; background:#fef3c7; border-radius:8px; padding:5px 8px; }
+.esc { color:#991b1b; font-weight:600; }
+details summary { cursor:pointer; color:var(--muted); }
+.faq { margin:6px 0 0; padding-left:18px; } .faq li { margin-bottom:4px; }
+.cols { display:grid; grid-template-columns:1fr 1fr; }
+.cols > div { padding:12px 16px; min-width:0; }
+.cols > div + div { border-left:1px solid var(--line); }
+.label { text-transform:uppercase; letter-spacing:.06em; font-size:.68rem; color:var(--muted); font-weight:700; margin-bottom:6px; }
+pre { white-space:pre-wrap; font-family:inherit; font-size:.86rem; line-height:1.5; margin:0; }
+textarea { width:100%; min-height:160px; overflow:hidden; font:inherit; font-size:.86rem; line-height:1.5; border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical; }
+.actions { display:flex; gap:8px; padding:10px 16px; border-top:1px solid var(--line); align-items:center; flex-wrap:wrap; }
+button { font:inherit; font-size:.85rem; border-radius:8px; border:1px solid var(--line); background:#fff; padding:7px 14px; cursor:pointer; }
+button.approve { background:var(--brand); color:#fff; border-color:var(--brand); }
+button.discard { color:#991b1b; }
+.saved { color:var(--muted); font-size:.8rem; }
+.empty { color:var(--muted); padding:30px; text-align:center; }
+@media (max-width:900px) { .layout { grid-template-columns:1fr; } aside .panel { position:static; } }
+@media (max-width:640px) { .cols { grid-template-columns:1fr; } .cols > div + div { border-left:0; border-top:1px solid var(--line); } .head { flex-direction:column; } .tags { justify-content:flex-start; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reply drafts - review queue</h1>
+  <div class="sub" id="sub">Loading...</div>
+  <div class="stats" id="stats"></div>
+</header>
+<div class="layout">
+  <main id="list"></main>
+  <aside><div class="panel"><h2>Follow-ups - waiting for the customer</h2><div id="followups">Loading...</div></div></aside>
+</div>
+<script>
+// All text is inserted with textContent, never innerHTML, so email content cannot inject markup.
+(function () {
+  const ORDER = { urgent: 0, normal: 1, low: 2 };
+  let items = [], filter = "pending";
+
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function pill(text, cls) { return el("span", "badge " + cls, text); }
+
+  async function load() {
+    const res = await fetch("/api/drafts");
+    const data = await res.json();
+    items = data.items;
+    document.getElementById("sub").textContent =
+      "Mode: " + data.mode + " · Nothing is ever sent. Approved drafts go to drafts/approved/" +
+      (data.imap_append ? " and to the mailbox Drafts folder (IMAP append is ON)." : " (IMAP append is off).");
+    render();
+    const fu = await (await fetch("/api/followups")).json();
+    renderFollowups(fu);
+  }
+
+  function renderStats() {
+    const box = document.getElementById("stats");
+    box.replaceChildren();
+    const counts = { pending: 0, approved: 0, discarded: 0 };
+    items.forEach((i) => counts[i.status]++);
+    const urgent = items.filter((i) => i.priority === "urgent" && i.status === "pending").length;
+    [["pending", "to review"], ["approved", "approved"], ["discarded", "discarded"], ["all", "all"]].forEach(([key, name]) => {
+      const s = el("div", "stat" + (filter === key ? " active" : ""));
+      s.append(el("b", "", key === "all" ? items.length : counts[key]), document.createTextNode(name));
+      s.onclick = () => { filter = key; render(); };
+      box.append(s);
+    });
+    const u = el("div", "stat");
+    u.append(el("b", "", urgent), document.createTextNode("urgent pending"));
+    box.append(u);
+  }
+
+  function render() {
+    renderStats();
+    const list = document.getElementById("list");
+    list.replaceChildren();
+    const shown = items.filter((i) => filter === "all" || i.status === filter)
+      .sort((a, b) => (ORDER[a.priority] - ORDER[b.priority]) || (a.confidence - b.confidence));
+    if (!shown.length) list.append(el("div", "empty", "Nothing here."));
+    shown.forEach((item) => list.append(card(item)));
+  }
+
+  function card(item) {
+    const c = el("article", "card " + item.status);
+    c.id = "d-" + item.id;
+    const head = el("div", "head");
+    const left = el("div");
+    left.append(el("h3", "", item.subject), el("div", "meta", item.from + " · " + item.date));
+    const tags = el("div", "tags");
+    tags.append(pill(item.priority, "p-" + item.priority), pill(item.label + " " + Math.round(item.confidence * 100) + "%", "intent"),
+      pill(item.status + (item.edited ? " (edited)" : ""), "st " + item.status));
+    head.append(left, tags);
+
+    const tri = el("div", "triage");
+    const sum = el("div"); sum.append(el("b", "", "Summary: "), document.createTextNode(item.summary + (item.triaged_by === "ai" ? "  (AI)" : "  (offline summary)")));
+    const labels = el("div"); item.labels.forEach((l) => labels.append(el("span", "lbl", l)));
+    tri.append(sum, labels);
+    item.rules_applied.forEach((r, n) => tri.append(el("div", "rule", "Rule: " + r + (item.notes[n] ? " - " + item.notes[n] : ""))));
+    if (item.escalate_to) tri.append(el("div", "esc", "Escalate to " + item.escalate_to));
+    if (item.faq.length) {
+      const d = el("details");
+      d.append(el("summary", "", "Knowledge base: " + item.faq.map((f) => f.id).join(", ") + (item.faq_in_draft ? " (used in the draft)" : " (related)")));
+      const ul = el("ul", "faq");
+      item.faq.forEach((f) => { const li = el("li"); li.append(el("b", "", f.id + " " + f.question + " "), document.createTextNode(f.answer)); ul.append(li); });
+      d.append(ul); tri.append(d);
+    }
+    if (item.imap) tri.append(el("div", "meta", "IMAP: " + item.imap));
+
+    const cols = el("div", "cols");
+    const a = el("div"); a.append(el("div", "label", "Customer email"), el("pre", "", item.body));
+    const b = el("div"); b.append(el("div", "label", "Draft reply (" + item.drafted_by + ") - edit before approving"));
+    const ta = el("textarea"); ta.value = item.draft; ta.disabled = item.status !== "pending";
+    b.append(ta); cols.append(a, b);
+    const fit = () => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + 4 + "px"; };
+    ta.addEventListener("input", fit); requestAnimationFrame(fit);
+
+    const actions = el("div", "actions");
+    const msg = el("span", "saved", item.reviewed_at ? "Last change " + item.reviewed_at : "");
+    if (item.status === "pending") {
+      actions.append(btn("Approve", "approve", () => act(item.id, "approve", { draft: ta.value })),
+        btn("Save edit", "", () => act(item.id, "save", { draft: ta.value })),
+        btn("Discard", "discard", () => act(item.id, "discard", {})));
+    } else {
+      actions.append(btn("Back to review", "", () => act(item.id, "reopen", {})));
+    }
+    actions.append(msg);
+    c.append(head, tri, cols, actions);
+    return c;
+  }
+
+  function btn(text, cls, fn) { const b = el("button", cls, text); b.onclick = fn; return b; }
+
+  async function act(id, action, body) {
+    const res = await fetch("/api/drafts/" + id + "/" + action, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) return alert(data.error || "Something went wrong");
+    items = items.map((i) => (i.id === id ? data : i));
+    render();
+  }
+
+  function renderFollowups(list) {
+    const box = document.getElementById("followups");
+    box.replaceChildren();
+    if (!list.length) return box.append(el("div", "meta", "No threads waiting."));
+    list.forEach((f) => {
+      const d = el("div", "fu");
+      const top = el("div"); top.append(pill(f.status, f.status), document.createTextNode(" " + f.subject));
+      d.append(top, el("div", "when", f.customer), el("div", "when", "Our last reply " + f.last_reply + " · " + f.days_waiting + " days, no answer"));
+      box.append(d);
+    });
+  }
+
+  load().catch(() => (document.getElementById("sub").textContent = "Cannot reach the server."));
+})();
+</script>
+</body>
+</html>

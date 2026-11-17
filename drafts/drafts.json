@@ -1,5 +1,6 @@
 [
   {
+    "id": "401ceff9cb",
     "source": "01.eml",
     "from": "Emma Carter <emma.carter@example.com>",
     "sender_email": "emma.carter@example.com",
@@ -11,10 +12,36 @@
     "label": "Order status",
     "confidence": 0.89,
     "classified_by": "rules",
+    "summary": "I ordered a linen throw and two mugs last Tuesday (order #BC-10482) and it still shows as processing.",
+    "priority": "normal",
+    "labels": [
+      "Order status",
+      "Shipping"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-01",
+        "question": "When will my order be dispatched?",
+        "answer": "Orders are usually dispatched within 2 working days, and we email a tracking link as soon as the parcel leaves us.",
+        "score": 10.91
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 8.64
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Emma,\n\nThanks for getting in touch about order BC-10482. I'm checking its status with our warehouse now and will email you the tracking link as soon as it has been dispatched. Orders usually leave us within 2 working days.\n\n[CHECK: add the current status / tracking link from the order system]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "cbc35b4727",
     "source": "02.eml",
     "from": "Liam Walsh <liam.walsh@example.net>",
     "sender_email": "liam.walsh@example.net",
@@ -26,10 +53,36 @@
     "label": "Order status",
     "confidence": 0.89,
     "classified_by": "rules",
+    "summary": "Can you send me the tracking number for order BC-10517?",
+    "priority": "normal",
+    "labels": [
+      "Order status",
+      "Shipping"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-01",
+        "question": "When will my order be dispatched?",
+        "answer": "Orders are usually dispatched within 2 working days, and we email a tracking link as soon as the parcel leaves us.",
+        "score": 14.66
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 6.74
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Liam,\n\nThanks for getting in touch about order BC-10517. I'm checking its status with our warehouse now and will email you the tracking link as soon as it has been dispatched. Orders usually leave us within 2 working days.\n\n[CHECK: add the current status / tracking link from the order system]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "19a5895656",
     "source": "03.eml",
     "from": "Sofia Nguyen <sofia.n@example.org>",
     "sender_email": "sofia.n@example.org",
@@ -41,10 +94,36 @@
     "label": "Refund / return",
     "confidence": 0.93,
     "classified_by": "rules",
+    "summary": "The table runner I received (order BC-10391) is too short for our table.",
+    "priority": "normal",
+    "labels": [
+      "Refund",
+      "Payment"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-02",
+        "question": "How do I return an item and get a refund?",
+        "answer": "Unused items can be returned within 30 days for a full refund. Refunds are issued within 5 working days of the return reaching us.",
+        "score": 9.36
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 4.17
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Sofia,\n\nThank you for your message about order BC-10391, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.\n\n[CHECK: confirm eligibility and send the return label / refund confirmation]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "190703db52",
     "source": "04.eml",
     "from": "Daniel Brooks <dbrooks@example.com>",
     "sender_email": "dbrooks@example.com",
@@ -56,25 +135,78 @@
     "label": "Refund / return",
     "confidence": 0.95,
     "classified_by": "rules",
+    "summary": "I cancelled the oak shelf from my order two weeks ago but I have not been refunded yet.",
+    "priority": "normal",
+    "labels": [
+      "Refund",
+      "Payment"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 14.9
+      },
+      {
+        "id": "FAQ-02",
+        "question": "How do I return an item and get a refund?",
+        "answer": "Unused items can be returned within 30 days for a full refund. Refunds are issued within 5 working days of the return reaching us.",
+        "score": 9.46
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Daniel,\n\nThank you for your message about order BC-10233, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.\n\n[CHECK: confirm eligibility and send the return label / refund confirmation]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "6fa961494b",
     "source": "05.eml",
     "from": "Priya Shah <priya.shah@example.com>",
     "sender_email": "priya.shah@example.com",
     "subject": "Booking the pottery workshop",
     "date": "2026-11-16 11:10",
-    "body": "Hi! I'd love to book two places on your Saturday pottery workshop, ideally 6 December. Are there still spaces available, and how do I pay?\n\nPriya",
+    "body": "Hi! I'd love to book two places on your Saturday pottery workshop, ideally 6 December. Are there still spaces available, and how do I pay? No rush, whenever you get a chance.\n\nPriya",
     "message_id": "<sample-005@example.com>",
     "intent": "booking",
     "label": "Booking",
     "confidence": 0.95,
     "classified_by": "rules",
+    "summary": "I'd love to book two places on your Saturday pottery workshop, ideally 6 December.",
+    "priority": "low",
+    "labels": [
+      "Booking",
+      "Payment",
+      "Workshop"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-05",
+        "question": "How do pottery workshop bookings work?",
+        "answer": "Pottery workshops run on Saturdays from 10:00 to 12:30. Places are booked and paid for on our website.",
+        "score": 29.98
+      },
+      {
+        "id": "FAQ-10",
+        "question": "Which payment methods do you accept?",
+        "answer": "We accept debit and credit cards, PayPal and Apple Pay at checkout.",
+        "score": 4.55
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Priya,\n\nThanks for your interest in our pottery workshop! Workshops run on Saturdays from 10:00 to 12:30 and you can book and pay for places on our website.\n\n[CHECK: confirm availability for the requested date and number of places]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "32dbd043b0",
     "source": "06.eml",
     "from": "Mark O'Neill <mark.oneill@example.net>",
     "sender_email": "mark.oneill@example.net",
@@ -86,10 +218,41 @@
     "label": "Complaint",
     "confidence": 0.95,
     "classified_by": "rules",
+    "summary": "This is the second time an order from you has arrived damaged.",
+    "priority": "urgent",
+    "labels": [
+      "Complaint",
+      "Damaged item",
+      "Repeat issue"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [
+      "Repeat problem is urgent"
+    ],
+    "notes": [
+      ""
+    ],
+    "faq": [
+      {
+        "id": "FAQ-03",
+        "question": "My item arrived damaged or broken. What should I do?",
+        "answer": "Please send us a photo of the damage and we will replace or refund the item at no cost to you.",
+        "score": 14.4
+      },
+      {
+        "id": "FAQ-01",
+        "question": "When will my order be dispatched?",
+        "answer": "Orders are usually dispatched within 2 working days, and we email a tracking link as soon as the parcel leaves us.",
+        "score": 3.91
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Mark,\n\nI'm really sorry to hear about your experience with order BC-10455 - that's not the standard we aim for. Could you send us a photo of the damage? We'll then arrange a replacement or a full refund, whichever you prefer, at no cost to you.\n\n[CHECK: review the order history and escalate to a manager if needed]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "f50a690336",
     "source": "07.eml",
     "from": "Hannah Lee <hannah@example-cafe.example>",
     "sender_email": "hannah@example-cafe.example",
@@ -101,10 +264,41 @@
     "label": "Other",
     "confidence": 0.5,
     "classified_by": "rules",
-    "draft": "Hi Hannah,\n\nThank you for your email. I've passed your question to the right person on our team and we'll get back to you within one working day.\n\n[CHECK: answer the question or forward to the right person]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
+    "summary": "I run a small cafe and would like to know if you offer wholesale prices for your stoneware mugs (around 60 units).",
+    "priority": "normal",
+    "labels": [
+      "General",
+      "Sales lead",
+      "Trade account"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [
+      "Trade customers get a label"
+    ],
+    "notes": [
+      ""
+    ],
+    "faq": [
+      {
+        "id": "FAQ-04",
+        "question": "Do you offer wholesale or trade prices?",
+        "answer": "Yes, we offer trade prices for cafes, shops and restaurants on orders of 24 or more units of the same item. Our trade team sends the price list on request.",
+        "score": 16.77
+      },
+      {
+        "id": "FAQ-09",
+        "question": "How should I care for stoneware mugs and bowls?",
+        "answer": "Our stoneware is dishwasher and microwave safe. Hand washing keeps speckled glazes looking new for longer.",
+        "score": 5.87
+      }
+    ],
+    "faq_in_draft": true,
+    "draft": "Hi Hannah,\n\nThank you for your email. Yes, we offer trade prices for cafes, shops and restaurants on orders of 24 or more units of the same item. Our trade team sends the price list on request.\n\n[CHECK: answer the question or forward to the right person]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   },
   {
+    "id": "d29097edd1",
     "source": "08.eml",
     "from": "Oliver Grant <oliver.grant@example.com>",
     "sender_email": "oliver.grant@example.com",
@@ -116,7 +310,130 @@
     "label": "Refund / return",
     "confidence": 0.71,
     "classified_by": "rules",
+    "summary": "My order BC-10560 arrived today but the glass carafe is cracked.",
+    "priority": "normal",
+    "labels": [
+      "Refund",
+      "Damaged item",
+      "Payment"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "",
+    "rules_applied": [],
+    "notes": [],
+    "faq": [
+      {
+        "id": "FAQ-03",
+        "question": "My item arrived damaged or broken. What should I do?",
+        "answer": "Please send us a photo of the damage and we will replace or refund the item at no cost to you.",
+        "score": 15.88
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 6.08
+      }
+    ],
+    "faq_in_draft": false,
     "draft": "Hi Oliver,\n\nThank you for your message about order BC-10560, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.\n\n[CHECK: confirm eligibility and send the return label / refund confirmation]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
+    "drafted_by": "template"
+  },
+  {
+    "id": "590ba00a0d",
+    "source": "09.eml",
+    "from": "Grace Fitzgerald <grace.fitz@example.co.uk>",
+    "sender_email": "grace.fitz@example.co.uk",
+    "subject": "Refund for order BC-10602 - dining chairs",
+    "date": "2026-11-16 13:38",
+    "body": "Hello,\n\nI returned the two oak dining chairs from order BC-10602 last week (tracking shows you received them on Friday). The order total was $240. Please can you confirm when the refund will be processed?\n\nThank you,\nGrace",
+    "message_id": "<sample-009@example.com>",
+    "intent": "refund",
+    "label": "Refund / return",
+    "confidence": 0.78,
+    "classified_by": "rules",
+    "summary": "I returned the two oak dining chairs from order BC-10602 last week (tracking shows you received them on Friday).",
+    "priority": "normal",
+    "labels": [
+      "Refund",
+      "Shipping",
+      "Payment",
+      "Escalated"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "manager@brambleandco.example",
+    "rules_applied": [
+      "Refund over $100 needs a manager"
+    ],
+    "notes": [
+      "Refund over $100 - a manager must approve before replying."
+    ],
+    "faq": [
+      {
+        "id": "FAQ-01",
+        "question": "When will my order be dispatched?",
+        "answer": "Orders are usually dispatched within 2 working days, and we email a tracking link as soon as the parcel leaves us.",
+        "score": 10.46
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 9.45
+      }
+    ],
+    "faq_in_draft": false,
+    "draft": "[CHECK: escalated to manager@brambleandco.example - get approval before sending]\n\nHi Grace,\n\nThank you for your message about order BC-10602, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.\n\n[CHECK: confirm eligibility and send the return label / refund confirmation]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
+    "drafted_by": "template"
+  },
+  {
+    "id": "92acb3de90",
+    "source": "10.eml",
+    "from": "Tom Reilly <tom.reilly@example.com>",
+    "sender_email": "tom.reilly@example.com",
+    "subject": "Still no refund - I will open a chargeback",
+    "date": "2026-11-16 14:15",
+    "body": "I sent the faulty lamp back three weeks ago (order BC-10288) and I have still not had my refund of $64. Nobody has answered my last two emails. If I don't hear back by Friday I will open a chargeback with my bank.\n\nTom Reilly",
+    "message_id": "<sample-010@example.com>",
+    "intent": "refund",
+    "label": "Refund / return",
+    "confidence": 0.89,
+    "classified_by": "rules",
+    "summary": "I sent the faulty lamp back three weeks ago (order BC-10288) and I have still not had my refund of $64.",
+    "priority": "urgent",
+    "labels": [
+      "Refund",
+      "Damaged item",
+      "Payment",
+      "Legal risk",
+      "Repeat issue"
+    ],
+    "triaged_by": "rules",
+    "escalate_to": "manager@brambleandco.example",
+    "rules_applied": [
+      "Chargeback or legal threat is urgent",
+      "Repeat problem is urgent"
+    ],
+    "notes": [
+      "Customer mentions a chargeback or legal step - reply today.",
+      ""
+    ],
+    "faq": [
+      {
+        "id": "FAQ-03",
+        "question": "My item arrived damaged or broken. What should I do?",
+        "answer": "Please send us a photo of the damage and we will replace or refund the item at no cost to you.",
+        "score": 7.24
+      },
+      {
+        "id": "FAQ-06",
+        "question": "Can I cancel or change my order?",
+        "answer": "Orders can be changed or cancelled free of charge until they are dispatched. Cancelled items are refunded to the original payment method.",
+        "score": 4.17
+      }
+    ],
+    "faq_in_draft": false,
+    "draft": "[CHECK: escalated to manager@brambleandco.example - get approval before sending]\n\nHi Tom,\n\nThank you for your message about order BC-10288, and sorry it didn't work out. Unused items can be returned within 30 days for a full refund, and we issue refunds within 5 working days of receiving the return. If anything arrived damaged, just send us a photo and we'll refund it in full at no cost to you.\n\n[CHECK: confirm eligibility and send the return label / refund confirmation]\n\nBest wishes,\nThe Bramble & Co team\nhello@brambleandco.example\n",
     "drafted_by": "template"
   }
 ]
