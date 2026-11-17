@@ -4,6 +4,8 @@
 
 **Reads incoming customer emails, sorts them by urgency, applies your business rules, and writes reply drafts grounded in your own FAQ. A person reviews, edits and approves each draft in the browser. Nothing is ever sent automatically.**
 
+> **Live demo:** https://ai-email-reply-assistant-fx9m.onrender.com/ — the review queue with AI drafts built from the sample inbox *(free hosting: the first open after a quiet spell takes up to a minute while the server wakes up; fictional sample data, offline mode, no API keys)*
+
 ![Review queue: urgent emails first, rules fired, escalation, FAQ citations, editable draft, follow-up panel](docs/screenshot.png)
 
 *The review UI (`python -m assistant.review`) after an offline run on the fictional sample inbox. Urgent emails come first; the chargeback email fired two rules and is escalated to a manager; the right panel lists threads where the customer has not answered our last reply.*
