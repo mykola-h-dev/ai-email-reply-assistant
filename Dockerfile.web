@@ -1,0 +1,11 @@
+# Hosted web demo (Render free web service): builds drafts from the sample inbox, serves the review UI on $PORT.
+FROM python:3.12-slim
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+RUN useradd --create-home appuser && chown -R appuser /app
+USER appuser
+EXPOSE 10000
+CMD ["sh", "-c", "python -m assistant.main && exec python -m assistant.review --host 0.0.0.0 --port ${PORT:-10000}"]
