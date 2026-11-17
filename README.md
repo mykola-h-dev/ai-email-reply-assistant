@@ -64,7 +64,7 @@ python -m unittest discover tests
 ### AI mode
 
 ```bash
-cp .env.example .env          # add GEMINI_API_KEY (gemini-2.5-flash) or OPENAI_API_KEY
+cp .env.example .env          # add GEMINI_API_KEY (gemini-3.5-flash) or OPENAI_API_KEY
 python -m assistant.main
 ```
 
@@ -99,7 +99,7 @@ These are the rule-based outputs on 10 made-up emails, not a measured accuracy f
 
 | Variable / file | Purpose |
 |---|---|
-| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini key and model (default `gemini-2.5-flash`). Read from the environment only, never logged |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Gemini key and model (default `gemini-3.5-flash`). Read from the environment only, never logged |
 | `OPENAI_API_KEY`, `OPENAI_MODEL` | Used if no Gemini key is set (default `gpt-4o-mini`) |
 | `IMAP_HOST`, `IMAP_USER`, `IMAP_PASSWORD`, `IMAP_PORT` | Mailbox for `--source imap` and `--imap-append` |
 | `IMAP_MAILBOX`, `IMAP_LIMIT` | Folder and number of unread emails to read |

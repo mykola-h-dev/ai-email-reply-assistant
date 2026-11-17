@@ -1,7 +1,7 @@
 """Minimal LLM client for Google Gemini or OpenAI, using only `requests`.
 
 The provider is chosen from environment variables:
-  - GEMINI_API_KEY  -> Google Gemini (model from GEMINI_MODEL, default gemini-2.5-flash)
+  - GEMINI_API_KEY  -> Google Gemini (model from GEMINI_MODEL, default gemini-3.5-flash)
   - OPENAI_API_KEY  -> OpenAI Chat Completions (model from OPENAI_MODEL, default gpt-4o-mini)
 If neither is set, `is_available()` returns False and callers fall back to offline mode.
 Keys are never logged or printed.
@@ -47,7 +47,7 @@ def generate(system_prompt, user_prompt, temperature=0.2):
 
 
 def _gemini(system_prompt, user_prompt, temperature):
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    model = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
     body = {
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
